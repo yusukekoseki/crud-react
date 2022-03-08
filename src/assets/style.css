@@ -1,0 +1,24 @@
+body {
+    margin: 0;
+    text-align: "left"
+  }
+  
+  table {
+    width: 100%;
+    border-spacing: 0;
+    border: 1px solid black;
+    text-align: "left"
+  }
+  
+  thead {
+    text-align: left;
+    
+  }
+  
+  th,td {
+    border-bottom: solid 1px #444;
+    border-right: 1px solid black;
+    text-align: "left";
+  }
+  
+  

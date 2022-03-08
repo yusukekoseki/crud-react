@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "crud-35924",
+    "staging": "crud-35924"
+  },
+  "targets": {}
+}

@@ -1,7 +1,11 @@
-import { useLogout } from './AuthUserContext'
+import { useLogout } from '../AuthUserContext'
 import React, { useState } from "react";
-import "./App.css";
+import "../App.css";
 import { useSelector, useDispatch } from "react-redux";
+import { auth } from '../utils/firebaseConfig';
+import { Navigate, useNavigate } from "react-router-dom";
+import { useAuthContext } from '../context/AuthContext';
+import FlightList from '../components/FlightList'
 const HomePage = () => {
   const logout = useLogout()
   const lists = useSelector((state) => state.lists);
@@ -35,12 +39,22 @@ const HomePage = () => {
     setName("");
   };
 
+  const { user } = useAuthContext();
+
+  const history = useNavigate();
+  const handleLogout = () => {
+    auth.signOut();
+    history.push('/login');
+  };
+  if (!user) {
+    return <Navigate to="/login"/>;
+  } else {
   return (
     <>
       <h1>ホーム</h1>
       <p>プライベートページです。ログインしていないユーザは見れません。</p>
       <div>
-      <button onClick={logout}>ログアウトする</button>
+      <button onClick={handleLogout}>ログアウト</button>
       </div>
     <div className="App">
       <h1>ReduxでTodoリスト作成</h1>
@@ -66,9 +80,11 @@ const HomePage = () => {
             <div key={index}>{list.name}</div>
           ))}
       </ul>
+      <FlightList />
     </div>
     </>
   )
+  }
 }
 
-export default HomePage
+export default HomePage;
