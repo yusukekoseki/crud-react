@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  margin:30px
 }
 
 .App-logo {
@@ -35,4 +36,19 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.logout {
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  background: linear-gradient(145deg, #c541b6, #ea4dd8);
+  box-shadow:  1.7px 1.7px 4.8px #8c2e81,
+              -1.7px -1.7px 4.8px #ff62ff;
+}
+
+.logout:active {
+  background: #db48ca;
+  box-shadow: inset 17px 17px 48px #8c2e81,
+              inset -17px -17px 48px #ff62ff;
 }

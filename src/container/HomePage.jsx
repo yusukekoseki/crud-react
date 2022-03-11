@@ -1,23 +1,23 @@
 import { useLogout } from '../AuthUserContext'
 import React, { useState } from "react";
 import "../App.css";
-import { useSelector, useDispatch } from "react-redux";
+//import { useSelector, useDispatch } from "react-redux";
 import { auth } from '../utils/firebaseConfig';
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuthContext } from '../context/AuthContext';
 import FlightList from '../components/FlightList'
 const HomePage = () => {
   const logout = useLogout()
-  const lists = useSelector((state) => state.lists);
-  const dispatch = useDispatch();
-  const doneList = (name) => {
+  //const lists = useSelector((state) => state.lists);
+  //const dispatch = useDispatch();
+  /* const doneList = (name) => {
     dispatch({ type: "DONE_LIST", payload: name });
   };
   const deleteList = (name) => {
     dispatch({ type: "DELETE_LIST", payload: name });
-  };
+  }; */
 
-  const [name, setName] = useState("");
+  /* const [name, setName] = useState("");
   const [complete, setComplete] = useState(false);
 
   const inputText = (e) => {
@@ -37,7 +37,7 @@ const HomePage = () => {
       },
     });
     setName("");
-  };
+  }; */
 
   const { user } = useAuthContext();
 
@@ -53,11 +53,11 @@ const HomePage = () => {
     <>
       <h1>ホーム</h1>
       <p>プライベートページです。ログインしていないユーザは見れません。</p>
-      <div>
-      <button onClick={handleLogout}>ログアウト</button>
+      <div className="logout">
+        <button onClick={handleLogout}>ログアウト</button>
       </div>
     <div className="App">
-      <h1>ReduxでTodoリスト作成</h1>
+      {/* <h1>ReduxでTodoリスト作成</h1>
       <input type="text" value={name} onChange={inputText} />
       <button onClick={addList}>追加</button>
       <h2>未完了のTodoリスト</h2>
@@ -79,7 +79,8 @@ const HomePage = () => {
           .map((list, index) => (
             <div key={index}>{list.name}</div>
           ))}
-      </ul>
+      </ul> */}
+
       <FlightList />
     </div>
     </>

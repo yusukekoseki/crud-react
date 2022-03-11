@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz&display=swap');
 body {
     margin: 0;
     text-align: "left"
@@ -6,7 +7,7 @@ body {
   table {
     width: 100%;
     border-spacing: 0;
-    border: 1px solid black;
+    border: 1px solid #fdfdfd;
     text-align: "left"
   }
   
@@ -17,7 +18,7 @@ body {
   
   th,td {
     border-bottom: solid 1px #444;
-    border-right: 1px solid black;
+    border-right: 1px solid #fdfdfd;
     text-align: "left";
   }
   
