@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react"
+import React,{useState, useEffect } from "react"
 import "../assets/style.css"
 import MaterialIcon from 'react-google-material-icons'
 import Icon from '@material-ui/core/Icon'
@@ -21,10 +21,43 @@ const IFTable = {
 }
 
 
-const TableList= IFTable => {
+const TableList = React.memo(IFTable => {
 
-  const [status, setStatus] = React.useState({ open: false,rowData:{} });
+  const [modal, setModal] = React.useState({ open: false, rowData: {} })
   const [columns,setColumns]= useState([])
+
+  const openDialog = items => {
+    return (
+      <Dialog
+        open={modal.open}
+        aria-labelledby="draggable-dialog-title"
+        fullWidth
+        maxWidth="lg"
+      >
+        <DialogTitle id="draggable-dialog-title">詳細</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            <Typography>
+              Name: {items.name}
+            </Typography>
+            <Typography>
+              Description: {items.description}
+            </Typography>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+        <Button
+          onClick={() => setModal({ open: false })}
+          color="primary"
+        >
+         Close
+        </Button>
+        </DialogActions>
+      </Dialog>
+    )
+  }
+
+  console.log(modal.rowData, "!--------")
 
   return (
     <>
@@ -32,7 +65,18 @@ const TableList= IFTable => {
         title={IFTable.name}
         columns={IFTable.columns}
         data={IFTable.payloads}
-
+        actions={[
+          {
+            icon: 'edit',
+            tooltip: 'Edit Record',
+            onClick: (_, rowData) => setModal({ open: true, rowData })
+          },
+          {
+            icon: 'delete',
+            tooltip: 'Delete Record',
+            onClick: (_, rowData) => setModal({ open: true, rowData })
+          }
+        ]}
         editable={{
         // onRowAdd: newData =>
         //   new Promise((resolve, reject) => {
@@ -45,10 +89,10 @@ const TableList= IFTable => {
         // onRowUpdate: (newData, oldData) =>
         //   new Promise((resolve, reject) => {
         //     setTimeout(() => {
-        //       const dataUpdate = [...data];
-        //       const index = oldData.tableData.id;
-        //       dataUpdate[index] = newData;
-        //       setData([...dataUpdate]);
+        //       const dataUpdate = [...data]
+        //       const index = oldData.tableData.id
+        //       dataUpdate[index] = newData
+        //       setData([...dataUpdate])
         //
         //       resolve();
         //     }, 1000)
@@ -65,41 +109,16 @@ const TableList= IFTable => {
         //     }, 1000)
         //   }),
       }}
-
-
         options={{
           showTitle: false,
           paging: false,
           maxBodyHeight: 600,
           headerStyle: { position: 'sticky', top: 0 ,backgroundColor : '#f4f4f4' }
         }}
-        onRowClick={(event, rowData) => {
-          event.preventDefault();
-          setStatus({ open: true,rowData:rowData });
-          }}
-        localization={{ header: { actions: '' } }}
       />
-      <Dialog
-        open={status.open}
-        aria-labelledby="draggable-dialog-title"
-        fullWidth
-        maxWidth="lg"
-      >
-        <DialogTitle id="draggable-dialog-title">詳細</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-        <Button
-          onClick={() => setStatus({ open: false,rowData:status.rowData })}
-          color="primary"
-        >
-        </Button>
-        </DialogActions>
-      </Dialog>
+      { modal.open && openDialog(modal.rowData) }
     </>
   )
-}
+})
 
 export default TableList
