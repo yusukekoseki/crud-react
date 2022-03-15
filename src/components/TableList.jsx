@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react"
+import React,{useState, useEffect } from "react"
 import "../assets/style.css"
 import MaterialIcon from 'react-google-material-icons'
 import Icon from '@material-ui/core/Icon'
@@ -17,14 +17,45 @@ import Typography from "@material-ui/core/Typography"
 const IFTable = {
   name: "Default",
   columns: {},
-  payloads: {}
+  payloads: {},
+  actions: []
 }
 
 
-const TableList= IFTable => {
+const TableList = React.memo(IFTable => {
 
-  const [status, setStatus] = React.useState({ open: false,rowData:{} });
+  const [modal, setModal] = React.useState({ open: false, rowData: {} })
   const [columns,setColumns]= useState([])
+
+  IFTable.actions.map(action => {
+    action.onClick = (_, d) => setModal({open: true, rowData: d})
+  })
+
+  const openDialog = item => {
+    return (
+      <Dialog
+        open={modal.open}
+        aria-labelledby="draggable-dialog-title"
+        fullWidth
+        maxWidth="lg"
+      >
+        <DialogTitle id="draggable-dialog-title">詳細</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {item.name}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+        <Button
+          onClick={() => setModal({ open: false })}
+          color="primary"
+        >
+         Close
+        </Button>
+        </DialogActions>
+      </Dialog>
+    )
+  }
 
   return (
     <>
@@ -32,7 +63,7 @@ const TableList= IFTable => {
         title={IFTable.name}
         columns={IFTable.columns}
         data={IFTable.payloads}
-
+        actions={IFTable.actions}
         editable={{
         // onRowAdd: newData =>
         //   new Promise((resolve, reject) => {
@@ -45,10 +76,10 @@ const TableList= IFTable => {
         // onRowUpdate: (newData, oldData) =>
         //   new Promise((resolve, reject) => {
         //     setTimeout(() => {
-        //       const dataUpdate = [...data];
-        //       const index = oldData.tableData.id;
-        //       dataUpdate[index] = newData;
-        //       setData([...dataUpdate]);
+        //       const dataUpdate = [...data]
+        //       const index = oldData.tableData.id
+        //       dataUpdate[index] = newData
+        //       setData([...dataUpdate])
         //
         //       resolve();
         //     }, 1000)
@@ -65,41 +96,16 @@ const TableList= IFTable => {
         //     }, 1000)
         //   }),
       }}
-
-
         options={{
           showTitle: false,
           paging: false,
           maxBodyHeight: 600,
           headerStyle: { position: 'sticky', top: 0 ,backgroundColor : '#f4f4f4' }
         }}
-        onRowClick={(event, rowData) => {
-          event.preventDefault();
-          setStatus({ open: true,rowData:rowData });
-          }}
-        localization={{ header: { actions: '' } }}
       />
-      <Dialog
-        open={status.open}
-        aria-labelledby="draggable-dialog-title"
-        fullWidth
-        maxWidth="lg"
-      >
-        <DialogTitle id="draggable-dialog-title">詳細</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-        <Button
-          onClick={() => setStatus({ open: false,rowData:status.rowData })}
-          color="primary"
-        >
-        </Button>
-        </DialogActions>
-      </Dialog>
+      { modal.open && openDialog(modal.rowData) }
     </>
   )
-}
+})
 
 export default TableList

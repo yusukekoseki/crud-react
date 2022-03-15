@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import AircraftList from "../containers/home/AircraftList"
 
 
-const HomePage = () => {
+const HomePage = React.memo(() => {
 
   return (
     <>
@@ -10,6 +10,6 @@ const HomePage = () => {
       <AircraftList />
     </>
   )
-}
+})
 
 export default HomePage

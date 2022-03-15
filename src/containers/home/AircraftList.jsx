@@ -4,12 +4,27 @@ import { getList } from "../../api/rest"
 import TableList from "../../components/TableList"
 
 
+const api_endpoint = process.env.REACT_APP_RESTAPI_DOMAIN + "/registration/v1/aircrafts"
+
 const columns = [
-  { title: "ID", field: "id" },
   { title: "Name", field: "name" },
   { title: "Description", field: "description" },
-  { title: "Serial", field: "serial" }
+  { title: "Serial", field: "serial" },
+  { title: "Model", field: "model_id" },
+  { title: "Organization", field: "organization.name" },
 ]
+
+const actions = [
+  {
+    icon: 'edit',
+    tooltip: 'Edit Record',
+  },
+  {
+    icon: 'delete',
+    tooltip: 'Delete Record',
+  }
+]
+
 
 const AircraftList = () => {
 
@@ -20,7 +35,7 @@ const AircraftList = () => {
 
     (async () => {
       setAircrafts(
-        await getList(process.env.REACT_APP_RESTAPI_DOMAIN + "/registration/v1/aircrafts", cookies.access_token)
+        await getList(api_endpoint, cookies.access_token)
       )
     })()
 
@@ -28,7 +43,7 @@ const AircraftList = () => {
 
   return(
     <>
-      <TableList columns={columns} payloads={aircrafts} />
+      <TableList columns={columns} payloads={aircrafts} actions={actions}/>
     </>
   )
 }
