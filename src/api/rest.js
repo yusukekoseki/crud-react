@@ -8,9 +8,11 @@ export const postData = async (url, obj) => {
     body: JSON.stringify(obj)
   })
 
-  if (res.ok) {
-    const res_j = await res.json()
+  const res_j = await res.json()
+  if (res_j.data != null) {
     return await res_j.data
+  } else {
+    return await res_j.error
   }
 }
 

@@ -28,7 +28,6 @@ const AircraftList = () => {
 
   return(
     <>
-      <h2>ここにTableが入る</h2>
       <TableList columns={columns} payloads={aircrafts} />
     </>
   )
