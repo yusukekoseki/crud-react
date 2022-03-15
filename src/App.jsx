@@ -1,22 +1,20 @@
-import React from 'react';
-import SignUpPage from './container/SignUpPage'
-import { AuthProvider } from './context/AuthContext';
-import { BrowserRouter, Route,Routes } from 'react-router-dom';
-import HomePage from './container/HomePage';
-import LoginPage from './container/LoginPage';
+import React from 'react'
+import SignUpPage from './pages/SignUp'
+import { AuthProvider } from './context/AuthContext'
+import { BrowserRouter, Route,Routes } from 'react-router-dom'
+import HomePage from './pages/Home'
+import LoginPage from './pages/Login'
 
 function App() {
   return (
     <AuthProvider>
-      <div style={{ margin: '2em' }}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage/>} />
-            <Route path="/signup" element={<SignUpPage/>} />
-            <Route path="/login" element={<LoginPage/>} />
-          </Routes>
-        </BrowserRouter>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<LoginPage/>} />
+          <Route path="/home" element={<HomePage/>} />
+          <Route path="/signup" element={<SignUpPage/>} />
+        </Routes>
+      </BrowserRouter>
     </AuthProvider>
   );
 }
