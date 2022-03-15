@@ -14,6 +14,18 @@ const columns = [
   { title: "Organization", field: "organization.name" },
 ]
 
+const actions = [
+  {
+    icon: 'edit',
+    tooltip: 'Edit Record',
+  },
+  {
+    icon: 'delete',
+    tooltip: 'Delete Record',
+  }
+]
+
+
 const AircraftList = () => {
 
   const [aircrafts, setAircrafts] = useState([])
@@ -31,7 +43,7 @@ const AircraftList = () => {
 
   return(
     <>
-      <TableList columns={columns} payloads={aircrafts} />
+      <TableList columns={columns} payloads={aircrafts} actions={actions}/>
     </>
   )
 }

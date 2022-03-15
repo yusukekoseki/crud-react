@@ -17,7 +17,8 @@ import Typography from "@material-ui/core/Typography"
 const IFTable = {
   name: "Default",
   columns: {},
-  payloads: {}
+  payloads: {},
+  actions: []
 }
 
 
@@ -26,7 +27,11 @@ const TableList = React.memo(IFTable => {
   const [modal, setModal] = React.useState({ open: false, rowData: {} })
   const [columns,setColumns]= useState([])
 
-  const openDialog = items => {
+  IFTable.actions.map(action => {
+    action.onClick = (_, d) => setModal({open: true, rowData: d})
+  })
+
+  const openDialog = item => {
     return (
       <Dialog
         open={modal.open}
@@ -37,12 +42,7 @@ const TableList = React.memo(IFTable => {
         <DialogTitle id="draggable-dialog-title">詳細</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            <Typography>
-              Name: {items.name}
-            </Typography>
-            <Typography>
-              Description: {items.description}
-            </Typography>
+            {item.name}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -57,26 +57,13 @@ const TableList = React.memo(IFTable => {
     )
   }
 
-  console.log(modal.rowData, "!--------")
-
   return (
     <>
       <MaterialTable
         title={IFTable.name}
         columns={IFTable.columns}
         data={IFTable.payloads}
-        actions={[
-          {
-            icon: 'edit',
-            tooltip: 'Edit Record',
-            onClick: (_, rowData) => setModal({ open: true, rowData })
-          },
-          {
-            icon: 'delete',
-            tooltip: 'Delete Record',
-            onClick: (_, rowData) => setModal({ open: true, rowData })
-          }
-        ]}
+        actions={IFTable.actions}
         editable={{
         // onRowAdd: newData =>
         //   new Promise((resolve, reject) => {
