@@ -10,60 +10,20 @@ import {
     DialogContentText,
     DialogActions,
     Button
-    } from "@material-ui/core";
+} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography"
 
 
-const IFTable = {
-  name: "Default",
-  columns: {},
-  payloads: {},
-  actions: []
-}
-
-
-const TableList = React.memo(IFTable => {
-
-  const [modal, setModal] = React.useState({ open: false, rowData: {} })
-  const [columns,setColumns]= useState([])
-
-  IFTable.actions.map(action => {
-    action.onClick = (_, d) => setModal({open: true, rowData: d})
-  })
-
-  const openDialog = item => {
-    return (
-      <Dialog
-        open={modal.open}
-        aria-labelledby="draggable-dialog-title"
-        fullWidth
-        maxWidth="lg"
-      >
-        <DialogTitle id="draggable-dialog-title">詳細</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {item.name}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-        <Button
-          onClick={() => setModal({ open: false })}
-          color="primary"
-        >
-         Close
-        </Button>
-        </DialogActions>
-      </Dialog>
-    )
-  }
+const TableList = React.memo(props => {
+  const { name = "default", columns, payloads, actions } = props
 
   return (
     <>
       <MaterialTable
-        title={IFTable.name}
-        columns={IFTable.columns}
-        data={IFTable.payloads}
-        actions={IFTable.actions}
+        title={name}
+        columns={columns}
+        data={payloads}
+        actions={actions}
         editable={{
         // onRowAdd: newData =>
         //   new Promise((resolve, reject) => {
@@ -103,7 +63,6 @@ const TableList = React.memo(IFTable => {
           headerStyle: { position: 'sticky', top: 0 ,backgroundColor : '#f4f4f4' }
         }}
       />
-      { modal.open && openDialog(modal.rowData) }
     </>
   )
 })
