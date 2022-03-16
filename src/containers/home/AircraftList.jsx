@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useCookies } from "react-cookie"
 import { getList } from "../../api/rest"
 import TableList from "../../components/TableList"
-import Dialog from "../../components/Dialog"
+import OnClickDialog from "../../components/OnClickDialog"
 
 
-const api_endpoint = process.env.REACT_APP_RESTAPI_DOMAIN + "/registration/v1/aircrafts"
+const aircraft_endpoint = process.env.REACT_APP_RESTAPI_DOMAIN + "/registration/v1/aircrafts"
 const columns = [
   { title: "Name", field: "name" },
   { title: "Description", field: "description" },
@@ -20,7 +20,7 @@ const AircraftList = () => {
   const dispatch = useDispatch()
   const dialogState = useSelector(state => state.dialog)
   const [aircrafts, setAircrafts] = useState([])
-  const [cookies, setCookie, removeCookie] = useCookies()
+  const [cookies, _, __] = useCookies()
 
   const actions = [
     {
@@ -31,23 +31,20 @@ const AircraftList = () => {
     {
       icon: 'delete',
       tooltip: 'Delete Record',
-      onClick: e => dispatch({ type: "DELETE_ROW", payload: e })
+      onClick: (_, d) => dispatch({ type: "DELETE_ROW", payload: d })
     }
   ]
 
   useEffect(() => {
     (async () => {
       setAircrafts(
-        await getList(api_endpoint, cookies.access_token)
+        await getList(aircraft_endpoint, cookies.access_token)
       )
     })()
-  }, [])
+  }, [dialogState.is_open])
 
   return(
-    <>
-      <TableList columns={columns} payloads={aircrafts} actions={actions} />
-      { dialogState.is_open && <Dialog data={dialogState.data} /> }
-    </>
+    <TableList columns={columns} payloads={aircrafts} actions={actions} />
   )
 }
 

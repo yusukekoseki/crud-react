@@ -1,5 +1,5 @@
 import React,{useState, useEffect } from "react"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import "../assets/style.css"
 import MaterialTable from 'material-table'
 import {
@@ -15,7 +15,7 @@ import Typography from "@material-ui/core/Typography"
 
 const TableList = React.memo(props => {
   const dispatch = useDispatch()
-  const { data } = props
+  const { data, children, buttons } = props
 
   return (
     <Dialog
@@ -26,17 +26,20 @@ const TableList = React.memo(props => {
     >
       <DialogTitle id="draggable-dialog-title">詳細</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          {data.name}
-        </DialogContentText>
+        {children}
       </DialogContent>
       <DialogActions>
-      <Button
-        onClick={() => dispatch({ type: "CLOSE_DIALOG" })}
-        color="primary"
-      >
-       Close
-      </Button>
+        {
+          buttons.map(button => (
+            <Button
+              key={button.label}
+              onClick={button.func}
+              color={button.color}
+            >
+              {button.label}
+            </Button>
+          ))
+        }
       </DialogActions>
     </Dialog>
   )
