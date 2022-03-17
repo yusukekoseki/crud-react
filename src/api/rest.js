@@ -1,5 +1,4 @@
-export const postData = async (url, obj, token="") => {
-
+export const post = async (url, obj, token="") => {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -11,14 +10,13 @@ export const postData = async (url, obj, token="") => {
 
   const res_j = await res.json()
   if (res_j.data != null) {
-    return await res_j.data
+    return res_j.data
   } else {
-    return await res_j.error
+    return res_j.error
   }
 }
 
-export const updateData = async (url, obj, token) => {
-
+export const patch = async (url, obj, token) => {
   const res = await fetch(url, {
     method: 'PATCH',
     headers: {
@@ -30,14 +28,13 @@ export const updateData = async (url, obj, token) => {
 
   const res_j = await res.json()
   if (res_j.data != null) {
-    return await res_j.data
+    return res_j.data
   } else {
-    return await res_j.error
+    return res_j.error
   }
 }
 
-export const putData = async (url, obj, token) => {
-
+export const put = async (url, obj, token) => {
   const res = await fetch(url, {
     method: 'PUT',
     headers: {
@@ -49,13 +46,13 @@ export const putData = async (url, obj, token) => {
 
   const res_j = await res.json()
   if (res_j.data != null) {
-    return await res_j.data
+    return res_j.data
   } else {
-    return await res_j.error
+    return res_j.error
   }
 }
 
-export const getList = async (url, token) => {
+export const get = async (url, token) => {
 
   const res = await fetch(url, {
     method: 'GET',
@@ -65,8 +62,10 @@ export const getList = async (url, token) => {
     }
   })
 
-  if (res.ok) {
-    const res_j = await res.json()
+  const res_j = await res.json()
+  if (res_j.data != null) {
     return res_j.data
+  } else {
+    return res_j.error
   }
 }

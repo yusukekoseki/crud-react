@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react"
-import { useDispatch, useSelector } from 'react-redux'
-import { useCookies } from "react-cookie"
-import { getList } from "../../api/rest"
 import TableList from "../../components/TableList"
 import OnClickDialog from "../../components/OnClickDialog"
+import { useDispatch, useSelector } from 'react-redux'
+import { useCookies } from "react-cookie"
+import { getAircraftList, deleteAircraft } from "../../api/aircraft"
+import { useAsyncEffect } from "../../utils/hook"
 
 
 const aircraft_endpoint = process.env.REACT_APP_RESTAPI_DOMAIN + "/registration/v1/aircrafts"
@@ -20,7 +21,13 @@ const AircraftList = () => {
   const dispatch = useDispatch()
   const dialogState = useSelector(state => state.dialog)
   const [aircrafts, setAircrafts] = useState([])
+  const [deleted, setDeleted] = useState("")
   const [cookies, _, __] = useCookies()
+
+  const deleteAction = async id => {
+    await deleteAircraft(id, cookies.access_token)
+    setDeleted(id)
+  }
 
   const actions = [
     {
@@ -31,17 +38,14 @@ const AircraftList = () => {
     {
       icon: 'delete',
       tooltip: 'Delete Record',
-      onClick: (_, d) => dispatch({ type: "DELETE_ROW", payload: d })
+      onClick: (_, d) => deleteAction(d.id)
     }
   ]
 
-  useEffect(() => {
-    (async () => {
-      setAircrafts(
-        await getList(aircraft_endpoint, cookies.access_token)
-      )
-    })()
-  }, [dialogState.is_open])
+  useAsyncEffect(async () => {
+    console.log(deleted)
+    setAircrafts(await getAircraftList(cookies.access_token))
+  }, [dialogState.is_open, deleted])
 
   return(
     <TableList columns={columns} payloads={aircrafts} actions={actions} />

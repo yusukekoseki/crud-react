@@ -33,7 +33,7 @@ const TableList = React.memo(props => {
           buttons.map(button => (
             <Button
               key={button.label}
-              onClick={button.func}
+              onClick={button.onClick}
               color={button.color}
             >
               {button.label}

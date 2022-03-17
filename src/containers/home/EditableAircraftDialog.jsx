@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { useCookies } from "react-cookie"
-import { Button, TextField } from "@material-ui/core";
-import { updateData, getList } from "../../api/rest"
+import { Button, TextField } from "@material-ui/core"
+import { updateAircraft } from "../../api/aircraft"
 import TableList from "../../components/TableList"
 import OnClickDialog from "../../components/OnClickDialog"
 
@@ -23,20 +23,20 @@ const AircraftList = () => {
   const aircraftState = useSelector(state => state.aircraft)
   const [cookies, _, __] = useCookies()
 
-  const updateAircraft = async () => {
-    await updateData(aircraft_endpoint + "/" + dialogState.data.id, aircraftState, cookies.access_token)
+  const updateAircraftFunc = async () => {
+    await updateAircraft(dialogState.data.id, aircraftState, cookies.access_token)
   }
 
   const buttons = [
     {
       label: "SAVE",
       color: "primary",
-      func: () => updateAircraft()
+      onClick: () => updateAircraftFunc()
     },
     {
       label: "CLOSE",
       color: "secondary",
-      func: () => dispatch({ type: "CLOSE_DIALOG" })
+      onClick: () => dispatch({ type: "CLOSE_DIALOG" })
     }
   ]
 
