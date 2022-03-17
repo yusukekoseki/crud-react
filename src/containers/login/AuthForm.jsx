@@ -4,16 +4,17 @@ import { useCookies } from "react-cookie"
 import { postData } from "../../api/rest"
 
 
+const auth_endpoint = process.env.REACT_APP_RESTAPI_DOMAIN + "/registration/v1/auth/login"
+
 const AuthForm = props => {
 
   const { direction } = props
-
   const navigate = useNavigate()
   const [loginInfo, setLoginInfo] = useState({ "email": "", "password": "" })
   const [cookies, setCookie, removeCookie] = useCookies()
 
   const auth = async () => {
-    const TOKEN = await postData(process.env.REACT_APP_RESTAPI_DOMAIN + "/registration/v1/auth/login", loginInfo)
+    const TOKEN = await postData(auth_endpoint, loginInfo)
 
     if ("access_token" in TOKEN) {
       setCookie("access_token", TOKEN.access_token)
