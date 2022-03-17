@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Navigate, withRouter, useNavigate } from 'react-router-dom'
 import { useCookies } from "react-cookie"
-import { tryLogin } from "../../api/auth"
+import { tryLogin } from "../../apis/auth"
 
 
 const AuthForm = props => {

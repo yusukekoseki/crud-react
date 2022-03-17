@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import AircraftList from "../containers/home/AircraftList"
+import CreatableAircraftDialog from "../containers/home/CreatableAircraftDialog"
 import EditableAircraftDialog from "../containers/home/EditableAircraftDialog"
 
 
@@ -12,7 +13,8 @@ const HomePage = React.memo(() => {
     <>
       <h1>登録機体一覧</h1>
       <AircraftList />
-      { dialogState.is_open &&  <EditableAircraftDialog /> }
+      { dialogState.creatable_open &&  <CreatableAircraftDialog /> }
+      { dialogState.editable_open &&  <EditableAircraftDialog /> }
     </>
   )
 })

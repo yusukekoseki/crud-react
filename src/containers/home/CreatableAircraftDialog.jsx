@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { useCookies } from "react-cookie"
 import { TextField } from "@material-ui/core"
-import { updateAircraft } from "../../apis/aircraft"
+import { registerAircraft } from "../../apis/aircraft"
 import OnClickDialog from "../../components/OnClickDialog"
 import Aircraft from "../../entities/aircraft"
 
@@ -17,22 +17,22 @@ const columns = [
   { title: "Organization", field: "organization.name" },
 ]
 
-const EditableAircraftDialog = () => {
+const CreatableAircraftDialog = () => {
 
   const dispatch = useDispatch()
   const dialogState = useSelector(state => state.dialog)
   const aircraftState = useSelector(state => state.aircraft)
   const [cookies, _, __] = useCookies()
 
-  const updateAircraftFunc = async () => {
-    await updateAircraft(dialogState.data.id, aircraftState, cookies.access_token)
+  const registerAircraftFunc = async () => {
+    await registerAircraft(aircraftState, cookies.access_token)
   }
 
   const buttons = [
     {
       label: "SAVE",
       color: "primary",
-      onClick: () => updateAircraftFunc()
+      onClick: () => registerAircraftFunc()
     },
     {
       label: "CLOSE",
@@ -45,7 +45,7 @@ const EditableAircraftDialog = () => {
     <OnClickDialog buttons={buttons}>
       {
         columns.map(clm => {
-          const defaultValue = clm.title === "Organization" ? dialogState.data.organization.name : dialogState.data[clm.field]
+          const defaultValue = clm.title === "Organization" ? dialogState.data.organization?.name : dialogState.data[clm.field]
           return (
             <div key={clm.title}>
               <TextField
@@ -63,4 +63,4 @@ const EditableAircraftDialog = () => {
   )
 }
 
-export default EditableAircraftDialog
+export default CreatableAircraftDialog

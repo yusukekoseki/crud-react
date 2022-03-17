@@ -1,7 +1,7 @@
 import React,  { useState } from "react"
 import { Navigate, withRouter, useNavigate } from 'react-router-dom'
 import { useCookies } from "react-cookie"
-import { checkAccessToken } from "../api/auth"
+import { checkAccessToken } from "../apis/auth"
 import LoginPage from "../pages/Login"
 import { useAsyncEffect } from "../utils/hook"
 

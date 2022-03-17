@@ -3,8 +3,9 @@ import TableList from "../../components/TableList"
 import OnClickDialog from "../../components/OnClickDialog"
 import { useDispatch, useSelector } from 'react-redux'
 import { useCookies } from "react-cookie"
-import { getAircraftList, deleteAircraft } from "../../api/aircraft"
+import { getAircraftList, deleteAircraft } from "../../apis/aircraft"
 import { useAsyncEffect } from "../../utils/hook"
+import  Button from "../../components/Button"
 
 
 const aircraft_endpoint = process.env.REACT_APP_RESTAPI_DOMAIN + "/registration/v1/aircrafts"
@@ -12,11 +13,13 @@ const columns = [
   { title: "Name", field: "name" },
   { title: "Description", field: "description" },
   { title: "Serial", field: "serial" },
+  { title: "Customize", field: "is_customized" },
+  { title: "Color", field: "color" },
   { title: "Model", field: "model_id" },
   { title: "Organization", field: "organization.name" },
 ]
 
-const AircraftList = () => {
+const AircraftList = React.memo(() => {
 
   const dispatch = useDispatch()
   const dialogState = useSelector(state => state.dialog)
@@ -43,13 +46,17 @@ const AircraftList = () => {
   ]
 
   useAsyncEffect(async () => {
-    console.log(deleted)
     setAircrafts(await getAircraftList(cookies.access_token))
-  }, [dialogState.is_open, deleted])
+  }, [dialogState.editable_open, dialogState.creatable_open, deleted])
 
   return(
-    <TableList columns={columns} payloads={aircrafts} actions={actions} />
+    <>
+      <Button onClick={() => dispatch({ type: "OPEN_DIALOG_FOR_CREATION" })}  variant={"contained"} color={"primary"}>
+        Create
+      </Button>
+      <TableList columns={columns} payloads={aircrafts} actions={actions} />
+    </>
   )
-}
+})
 
 export default AircraftList
