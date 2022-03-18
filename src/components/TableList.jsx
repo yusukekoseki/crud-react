@@ -10,92 +10,19 @@ import {
     DialogContentText,
     DialogActions,
     Button
-    } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography"
+} from "@material-ui/core"
 
 
-const IFTable = {
-  name: "Default",
-  columns: {},
-  payloads: {},
-  actions: []
-}
-
-
-const TableList = React.memo(IFTable => {
-
-  const [modal, setModal] = React.useState({ open: false, rowData: {} })
-  const [columns,setColumns]= useState([])
-
-  IFTable.actions.map(action => {
-    action.onClick = (_, d) => setModal({open: true, rowData: d})
-  })
-
-  const openDialog = item => {
-    return (
-      <Dialog
-        open={modal.open}
-        aria-labelledby="draggable-dialog-title"
-        fullWidth
-        maxWidth="lg"
-      >
-        <DialogTitle id="draggable-dialog-title">詳細</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {item.name}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-        <Button
-          onClick={() => setModal({ open: false })}
-          color="primary"
-        >
-         Close
-        </Button>
-        </DialogActions>
-      </Dialog>
-    )
-  }
+const TableList = React.memo(props => {
+  const { name = "default", columns, payloads, actions } = props
 
   return (
     <>
       <MaterialTable
-        title={IFTable.name}
-        columns={IFTable.columns}
-        data={IFTable.payloads}
-        actions={IFTable.actions}
-        editable={{
-        // onRowAdd: newData =>
-        //   new Promise((resolve, reject) => {
-        //     setTimeout(() => {
-        //       setData([...data, newData]);
-        //
-        //       resolve();
-        //     }, 1000)
-        //   }),
-        // onRowUpdate: (newData, oldData) =>
-        //   new Promise((resolve, reject) => {
-        //     setTimeout(() => {
-        //       const dataUpdate = [...data]
-        //       const index = oldData.tableData.id
-        //       dataUpdate[index] = newData
-        //       setData([...dataUpdate])
-        //
-        //       resolve();
-        //     }, 1000)
-        //   }),
-        // onRowDelete: oldData =>
-        //   new Promise((resolve, reject) => {
-        //     setTimeout(() => {
-        //       const dataDelete = [...data]
-        //       const index = oldData.tableData.id
-        //       dataDelete.splice(index, 1)
-        //       setData([...dataDelete])
-        //
-        //       resolve()
-        //     }, 1000)
-        //   }),
-      }}
+        title={name}
+        columns={columns}
+        data={payloads}
+        actions={actions}
         options={{
           showTitle: false,
           paging: false,
@@ -103,7 +30,6 @@ const TableList = React.memo(IFTable => {
           headerStyle: { position: 'sticky', top: 0 ,backgroundColor : '#f4f4f4' }
         }}
       />
-      { modal.open && openDialog(modal.rowData) }
     </>
   )
 })
