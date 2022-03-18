@@ -28,6 +28,8 @@ const aircraftReducer = (state = initialAircraftState, action) => {
       return { ...state, serial: action.value }
     case "UPDATED_AIRCRAFT_MODEL":
       return { ...state, model_id: action.value }
+    case "UPDATED_AIRCRAFT_COLOR":
+      return { ...state, color: action.value }
     case "UPDATED_AIRCRAFT_ORGANIZATION":
       return { ...state, organization_id: action.value }
     default:

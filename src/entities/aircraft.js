@@ -17,7 +17,7 @@ export default class Aircraft {
       console.error(e)
     }
 
-    this.id = aircraftEntity.id
+    if (aircraftEntity.id) this.id = aircraftEntity.id
     this.name = aircraftEntity.name
     this.description = aircraftEntity.description
     this.model_id = aircraftEntity.model_id

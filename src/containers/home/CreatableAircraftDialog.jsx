@@ -20,12 +20,12 @@ const columns = [
 const CreatableAircraftDialog = () => {
 
   const dispatch = useDispatch()
-  const dialogState = useSelector(state => state.dialog)
   const aircraftState = useSelector(state => state.aircraft)
   const [cookies, _, __] = useCookies()
 
   const registerAircraftFunc = async () => {
-    await registerAircraft(aircraftState, cookies.access_token)
+    const aircraft = new Aircraft(aircraftState)
+    await registerAircraft(aircraft, cookies.access_token)
   }
 
   const buttons = [
@@ -45,14 +45,12 @@ const CreatableAircraftDialog = () => {
     <OnClickDialog buttons={buttons}>
       {
         columns.map(clm => {
-          const defaultValue = clm.title === "Organization" ? dialogState.data.organization?.name : dialogState.data[clm.field]
           return (
             <div key={clm.title}>
               <TextField
                id={clm.field}
                label={clm.title}
                variant="standard"
-               defaultValue={defaultValue}
                onChange={e => dispatch({ type: "UPDATED_AIRCRAFT_" + clm.title.toUpperCase(), value: e.target.value })}
               />
             </div>

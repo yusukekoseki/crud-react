@@ -11,7 +11,6 @@ import {
     DialogActions,
     Button
 } from "@material-ui/core"
-import Typography from "@material-ui/core/Typography"
 
 
 const TableList = React.memo(props => {

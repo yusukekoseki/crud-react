@@ -45,7 +45,7 @@ const EditableAircraftDialog = () => {
     <OnClickDialog buttons={buttons}>
       {
         columns.map(clm => {
-          const defaultValue = clm.title === "Organization" ? dialogState.data.organization.name : dialogState.data[clm.field]
+          const defaultValue = clm.title === "Organization" ? dialogState.data.organization.id : dialogState.data[clm.field]
           return (
             <div key={clm.title}>
               <TextField
